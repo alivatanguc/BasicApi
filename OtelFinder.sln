@@ -13,13 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelFinder2.API", "HotelFi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqProduct", "RabbitMqProduct\RabbitMqProduct.csproj", "{CE69019B-1150-4554-9B7D-1E0AF7FB8BB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQProductConsoleApplication", "RabbitMQProductConsoleApplication\RabbitMQProductConsoleApplication.csproj", "{3B2AA725-E58E-44A2-A398-FC44BF16A219}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqOrders", "RabbitMqOrders\RabbitMqOrders.csproj", "{40F882CD-6906-4DCE-A607-1F9078E19A19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rabbit", "Rabbit\Rabbit.csproj", "{259B97DD-A836-4322-9C52-11E48B441463}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketApicik", "BasketApicik\BasketApicik.csproj", "{171B7434-4333-43C0-A045-96646C1E3F6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelRabbitmqConsole", "HotelRabbitmqConsole\HotelRabbitmqConsole.csproj", "{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,22 +45,18 @@ Global
 		{CE69019B-1150-4554-9B7D-1E0AF7FB8BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE69019B-1150-4554-9B7D-1E0AF7FB8BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE69019B-1150-4554-9B7D-1E0AF7FB8BB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B2AA725-E58E-44A2-A398-FC44BF16A219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B2AA725-E58E-44A2-A398-FC44BF16A219}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B2AA725-E58E-44A2-A398-FC44BF16A219}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B2AA725-E58E-44A2-A398-FC44BF16A219}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40F882CD-6906-4DCE-A607-1F9078E19A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40F882CD-6906-4DCE-A607-1F9078E19A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40F882CD-6906-4DCE-A607-1F9078E19A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40F882CD-6906-4DCE-A607-1F9078E19A19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{259B97DD-A836-4322-9C52-11E48B441463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{259B97DD-A836-4322-9C52-11E48B441463}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{259B97DD-A836-4322-9C52-11E48B441463}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{259B97DD-A836-4322-9C52-11E48B441463}.Release|Any CPU.Build.0 = Release|Any CPU
 		{171B7434-4333-43C0-A045-96646C1E3F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{171B7434-4333-43C0-A045-96646C1E3F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{171B7434-4333-43C0-A045-96646C1E3F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{171B7434-4333-43C0-A045-96646C1E3F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

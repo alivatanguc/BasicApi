@@ -20,8 +20,10 @@ namespace HotelFinder.Business.Concrete
         {
             Hotel hotel = new Hotel()
             {
-              //City = hotelModel.City
-                Name = hotelModel.Name,
+                CityId=hotelModel.CityId,
+                CategoryId=hotelModel.CategoryId,
+                CountryId=hotelModel.CountryId,
+                Name = hotelModel.Name
                 
             };
             return _hotelRepository.CreateHotel(hotel);

@@ -43,7 +43,7 @@ namespace HotelFinder.DataAccess.Concrete
             using(var hoteldbContext = new HotelDbContext())
             {
                 return hoteldbContext.Countries.Include(k => k.Hotels).FirstOrDefault(k => k.Id == id);
-                return hoteldbContext.Countries.Find(id);
+                //return hoteldbContext.Countries.Find(id);
             }
         }
         public void DeleteCountry(int id)

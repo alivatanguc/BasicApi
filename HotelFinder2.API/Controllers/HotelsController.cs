@@ -7,11 +7,13 @@ using HotelFinder.Business.Concrete;
 using HotelFinder.Business.Models;
 using HotelFinder.DataAccess.Abstract;
 using HotelFinder.DataAccess.Concrete;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using OtelFinder.Entities;
+using RabbitMqProduct.RabitMQ;
 
 namespace HotelFinder2.API.Controllers
 {
@@ -27,10 +29,13 @@ namespace HotelFinder2.API.Controllers
         // {
         //_hotelService = new HotelManager();
         //}
+        private readonly IRabbitMQHotel _messagePublisher;
 
-        public HotelsController(IHotelService _hotelService)
+
+        public HotelsController(IHotelService _hotelService, IRabbitMQHotel messagePublisher)
         {
             hotelService = _hotelService;
+            _messagePublisher = messagePublisher;
         }
         
            
@@ -59,8 +64,10 @@ namespace HotelFinder2.API.Controllers
         public IActionResult Post([FromBody]HotelModel hotel)
         {
             var createdHotel = hotelService.CreateHotel(hotel);
+            _messagePublisher.SendHotelMessage(hotel);
             return CreatedAtAction("Get", new { id = createdHotel.Id }, createdHotel);//201 döndürür
           
+
         }
 
         [HttpPut]

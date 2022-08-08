@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hotelfinder2.api:
+    image: ${DOCKER_REGISTRY-}hotelfinder2api
+    build:
+      context: .
+      dockerfile: HotelFinder2.API\Dockerfile

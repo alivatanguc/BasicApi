@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Concrete;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RabbitMqProduct.RabitMQ;
 using StackExchange.Redis;
 
 namespace HotelFinder2.API
@@ -37,6 +39,7 @@ namespace HotelFinder2.API
             services.AddScoped<ICountryService, CountryManager>();
             services.AddScoped<ICustomerService, CustomerManager>();
             services.AddScoped<IRoomService, RoomManager>();
+            services.AddScoped<IRabbitMQHotel, RabitMQHotel>();
 
 
 

@@ -1,5 +1,4 @@
-﻿
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Text;
@@ -18,7 +17,7 @@ namespace RabbitMQHotelConsoleApplication
             factory.UserName = "guest";
             factory.Password = "guest";
             var connection = factory.CreateConnection();
-            
+
 
             using
                 var channel = connection.CreateModel();
@@ -37,4 +36,3 @@ namespace RabbitMQHotelConsoleApplication
         }
     }
 }
-
