@@ -8,10 +8,10 @@ namespace HotelFinder.Business.Abstract
 {
     public interface IHotelService
     {
-        Hotel CreateHotel(HotelModel hotel);
-        List<Hotel> GetAllHotels();
-        Hotel GetHotelById(int id);
-        Hotel UpdateHotel(HotelUpdateModel hotel);
-        void DeleteHotel(int id);
+        Hotel Create(HotelModel hotel);
+        List<Hotel> GetAll();
+        Hotel GetById(int id);
+        Hotel Update(HotelUpdateModel hotel);
+        void Delete(int id);
     }
 }

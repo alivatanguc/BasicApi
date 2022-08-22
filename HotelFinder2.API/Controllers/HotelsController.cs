@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Concrete;
 using HotelFinder.Business.Models;
@@ -21,61 +23,71 @@ namespace HotelFinder2.API.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
-       
-        
-           
+
+
+
         private IHotelService hotelService;
         // public HotelsController(IHotelService _hotelService)
         // {
         //_hotelService = new HotelManager();
         //}
-        private readonly IRabbitMQHotel _messagePublisher;
+        private readonly IValidator<HotelModel> _hotelValidator;
+        
+        private readonly ISendMessageHotel _messagePublisher;
 
 
-        public HotelsController(IHotelService _hotelService, IRabbitMQHotel messagePublisher)
+        public HotelsController(IHotelService _hotelService, ISendMessageHotel messagePublisher,IValidator<HotelModel> hotelValidator)
         {
             hotelService = _hotelService;
             _messagePublisher = messagePublisher;
+            _hotelValidator = hotelValidator;
         }
-        
-           
+
+
 
 
         [HttpGet]
         public IActionResult Get()
         {
-            var hotels = hotelService.GetAllHotels();
+            var hotels = hotelService.GetAll();
             return Ok(hotels);//200 döndürmemizi sağlar
-            
+
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var hotel = hotelService.GetHotelById(id);
+            var hotel = hotelService.GetById(id);
             if(hotel != null)
             {
                 return Ok(hotel);
-               
+
             }
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]HotelModel hotel)
+        public async Task<IActionResult> Post([FromBody]HotelModel hotel)
         {
-            var createdHotel = hotelService.CreateHotel(hotel);
+            var result = await _hotelValidator.ValidateAsync(hotel);
+
+            if(!result.IsValid)
+            {
+                return NotFound(result.Errors.Select(k => k.ErrorMessage));
+            }
+
+            var createdHotel = hotelService.Create(hotel);
             _messagePublisher.SendHotelMessage(hotel);
             return CreatedAtAction("Get", new { id = createdHotel.Id }, createdHotel);//201 döndürür
-          
+
 
         }
 
         [HttpPut]
         public IActionResult Put([FromBody]HotelUpdateModel hotel)
         {
-            if(hotelService.GetHotelById(hotel.Id) != null)
+            if(hotelService.GetById(hotel.Id) != null)
             {
-                return Ok(hotelService.UpdateHotel(hotel));
+                return Ok(hotelService.Update(hotel));
             }
             return NotFound();
         }
@@ -83,7 +95,7 @@ namespace HotelFinder2.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(hotelService.GetHotelById(id) != null)
+            if(hotelService.GetById(id) != null)
             {
                 return Ok();
             }

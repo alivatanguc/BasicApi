@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RabbitMqProduct.RabitMQ
 {
-   public interface IRabbitMQHotel
+   public interface ISendMessageHotel
     {
         public void SendHotelMessage<T>(T message)
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HotelFinder.Business.Models
 {
-    public class CityUpdateModel
+    public class CityUpdateModel 
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace HotelFinder2.API.Controllers
 
 
         private ICountryService countryService;
-        public CountryController(ICountryService _countryService)
+        private readonly IValidator<CountryModel> _countryValidator;
+        public CountryController(ICountryService _countryService, IValidator<CountryModel> countryValidator)
         {
             countryService = _countryService;
+            _countryValidator = countryValidator;
         }
 
 
@@ -29,7 +32,7 @@ namespace HotelFinder2.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var countries = countryService.GetAllCountries();
+            var countries = countryService.GetAll();
             return Ok(countries);//200 döndürmemizi sağlar
         }
 
@@ -38,7 +41,7 @@ namespace HotelFinder2.API.Controllers
 
         public IActionResult Get(int id)
         {
-            var country = countryService.GetCountryById(id);
+            var country = countryService.GetById(id);
             if(country != null)
             {
                 return Ok(country);
@@ -50,9 +53,15 @@ namespace HotelFinder2.API.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]CountryModel country)
+        public async Task<IActionResult> Post([FromBody]CountryModel country)
         {
-            var createdCountry = countryService.CreateCountry(country);
+            var result = await _countryValidator.ValidateAsync(country);
+
+            if(!result.IsValid)
+            {
+                return NotFound(result.Errors.Select(k => k.ErrorMessage));
+            }
+            var createdCountry = countryService.Create(country);
             return CreatedAtAction("Get", new { id = createdCountry.Id }, createdCountry);//201 döndürür
 
         }
@@ -61,9 +70,9 @@ namespace HotelFinder2.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put([FromBody]CountryUpdateModel country)
         {
-            if(countryService.GetCountryById(country.Id) != null)
+            if(countryService.GetById(country.Id) != null)
             {
-                return Ok(countryService.UpdateCountry(country));
+                return Ok(countryService.Update(country));
             }
             return NotFound();
         }
@@ -72,7 +81,7 @@ namespace HotelFinder2.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(countryService.GetCountryById(id) != null)
+            if(countryService.GetById(id) != null)
             {
                 return Ok();
             }

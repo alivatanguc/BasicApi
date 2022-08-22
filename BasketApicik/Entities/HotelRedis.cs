@@ -1,4 +1,4 @@
-﻿using BasketApicik.Models;
+﻿
 using OtelFinder.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace BasketApicik.Entities
     public class HotelRedis
     {
         public string Name { get; set; }
-        public List<HotelItem> Items { get; set; } = new List<HotelItem>();
+        public List<Reservation> Items { get; set; } = new List<Reservation>();
         public HotelRedis()
         {
         }

@@ -19,6 +19,27 @@ namespace HotelFinder.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("BasketApicik.Data.Reservation", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<double>("RoomPrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Star")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RoomId");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("OtelFinder.Entities.Category", b =>
                 {
                     b.Property<int>("Id")

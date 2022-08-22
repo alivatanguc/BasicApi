@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,4 +16,6 @@ namespace HotelFinder.Business.Models
         public int HotelId { get; set; }
 
     }
-}
+
+    }
+

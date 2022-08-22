@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OtelFinder.Entities
 {
-    public class Room
+    public class Room : Entity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

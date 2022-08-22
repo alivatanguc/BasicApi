@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,11 @@ namespace HotelFinder2.API.Controllers
     public class CategoryController : Controller
     {
         private  ICategoryService categoryService;
-
-        public CategoryController(ICategoryService _categoryService)
+        private readonly IValidator<CategoryModel> _categoryValidator;
+        public CategoryController(ICategoryService _categoryService, IValidator<CategoryModel> categoryValidator)
         {
             categoryService = _categoryService;
+            _categoryValidator = categoryValidator;
         }
 
 
@@ -26,7 +28,7 @@ namespace HotelFinder2.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var categories = categoryService.GetAllCategories();
+            var categories = categoryService.GetAll();
             return Ok(categories);//200 döndürmemizi sağlar
         }
 
@@ -35,7 +37,7 @@ namespace HotelFinder2.API.Controllers
         
             public IActionResult Get(int id)
             {
-                var category = categoryService.GetCategoryById(id);
+                var category = categoryService.GetById(id);
                 if(category != null)
                 {
                     return Ok(category);
@@ -47,9 +49,15 @@ namespace HotelFinder2.API.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]CategoryModel category)
+        public async Task<IActionResult> Post([FromBody]CategoryModel category)
         {
-            var createdCategory = categoryService.CreateCategory(category);
+            var result = await _categoryValidator.ValidateAsync(category);
+
+            if(!result.IsValid)
+            {
+                return NotFound(result.Errors.Select(k => k.ErrorMessage));
+            }
+            var createdCategory = categoryService.Create(category);
             return CreatedAtAction("Get", new { id = createdCategory.Id }, createdCategory);//201 döndürür
 
         }
@@ -58,9 +66,9 @@ namespace HotelFinder2.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put([FromBody]CategoryUpdateModel category)
         {
-            if(categoryService.GetCategoryById(category.Id) != null)
+            if(categoryService.GetById(category.Id) != null)
             {
-                return Ok(categoryService.UpdateCategory(category));
+                return Ok(categoryService.Update(category));
             }
             return NotFound();
         }
@@ -69,7 +77,7 @@ namespace HotelFinder2.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(categoryService.GetCategoryById(id) != null)
+            if(categoryService.GetById(id) != null)
             {
                 return Ok();
             }

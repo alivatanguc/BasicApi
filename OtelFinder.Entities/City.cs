@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OtelFinder.Entities
 {
-    public class City
+    public class City :Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }

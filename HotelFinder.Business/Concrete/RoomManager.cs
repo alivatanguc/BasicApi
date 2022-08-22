@@ -12,13 +12,13 @@ namespace HotelFinder.Business.Concrete
     public class RoomManager : IRoomService
     {
         private readonly IRoomRepository _roomRepository;
-        public RoomManager()
+        public RoomManager(IRoomRepository roomRepository)
         {
-            _roomRepository = new RoomRepository();
+            _roomRepository = roomRepository;
         }
-       
 
-        public Room CreateRoom(RoomModel roomModel)
+
+        public Room Create(RoomModel roomModel)
         {
 
             Room room = new Room()
@@ -26,16 +26,16 @@ namespace HotelFinder.Business.Concrete
                 //City = hotelModel.City
                 Capacitance = roomModel.Capacitance
             };
-            return _roomRepository.CreateRoom(room);
+            return _roomRepository.Create(room);
         }
 
 
-        public void DeleteRoom(int id)
+        public void Delete(int id)
         {
-            var entity = _roomRepository.GetRoomById(id);
+            var entity = _roomRepository.GetById(id);
             if(entity != null)
             {
-                _roomRepository.DeleteRoom(id);
+                _roomRepository.Delete(id);
             }
             else
             {
@@ -44,17 +44,17 @@ namespace HotelFinder.Business.Concrete
         }
 
       
-        public List<Room> GetAllRooms()
+        public List<Room> GetAll()
         {
-            return _roomRepository.GetAllRooms();
+            return _roomRepository.GetAll();
         }
 
 
-        public Room GetRoomById(int id)
+        public Room GetById(int id)
         {
             if(id > 0)
             {
-                return _roomRepository.GetRoomById(id);
+                return _roomRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
@@ -64,9 +64,9 @@ namespace HotelFinder.Business.Concrete
      
         
 
-        public Room UpdateRoom(RoomUpdateModel roomUpdateModel)
+        public Room Update(RoomUpdateModel roomUpdateModel)
         {
-            var entity = _roomRepository.GetRoomById(roomUpdateModel.Id);
+            var entity = _roomRepository.GetById(roomUpdateModel.Id);
             if(entity != null)
             {
                 Room room = new Room()
@@ -75,7 +75,7 @@ namespace HotelFinder.Business.Concrete
                     //City = hotelUpdateModel.City,
                     Capacitance = roomUpdateModel.Capacitance
                 };
-                return _roomRepository.UpdateRoom(room);
+                return _roomRepository.Update(room);
             }
             else
             {

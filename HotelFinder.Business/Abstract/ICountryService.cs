@@ -8,10 +8,10 @@ namespace HotelFinder.Business.Abstract
 {
     public interface ICountryService
     {
-        Country CreateCountry(CountryModel country);
-        List<Country> GetAllCountries();
-        Country GetCountryById(int id);
-        Country UpdateCountry(CountryUpdateModel country);
-        void DeleteCountry(int id);
+        Country Create(CountryModel country);
+        List<Country> GetAll();
+        Country GetById(int id);
+        Country Update(CountryUpdateModel country);
+        void Delete(int id);
     }
 }

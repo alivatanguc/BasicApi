@@ -20,7 +20,7 @@ namespace BasketApicik.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
        
-        [HttpGet("{userName}", Name = "GetBasket")]
+        [HttpGet("{HotelName}")]
         [ProducesResponseType(typeof(Hotel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Hotel>> GetBasket(string Name)
         {
@@ -32,12 +32,12 @@ namespace BasketApicik.Controllers
        
         [HttpPost]
         [ProducesResponseType(typeof(Hotel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Hotel>> UpdateBasket([FromBody] Hotel hotel)
+        public async Task<ActionResult<Hotel>> UpdateBasket([FromBody] Reservation hotel)
         {
             return Ok(await _repository.UpdateBasket(hotel));
         }
         // DELETE api/<controller>/5
-        [HttpDelete("{HotelName}", Name = "DeleteBasket")]
+        [HttpDelete("{HotelName}")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteBasket(string Name)
         {

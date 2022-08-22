@@ -2,23 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Concrete;
-
+using HotelFinder.Business.MapperProfiles;
+using HotelFinder.Business.Models;
+using HotelFinder.DataAccess;
+using HotelFinder.DataAccess.Abstract;
+using HotelFinder.DataAccess.Concrete;
+using HotelFinder.DataAccess.Concrete.GenericRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using OtelFinder.Entities;
 using RabbitMqProduct.RabitMQ;
 using StackExchange.Redis;
+using static OtelFinder.Entities.Hotel;
 
 namespace HotelFinder2.API
 {
     public class Startup
     {
+
         private IConfiguration Configuration;
 
         public Startup(IConfiguration configuration)
@@ -33,23 +44,62 @@ namespace HotelFinder2.API
             
            var redis = ConnectionMultiplexer.Connect("localhost");
             services.AddScoped(s=>redis.GetDatabase());
-            services.AddScoped<IHotelService, HotelManager>();
-            services.AddScoped<ICategoryService, CategoryManager>();
-            services.AddScoped<ICityService, CityManager>();
-            services.AddScoped<ICountryService, CountryManager>();
-            services.AddScoped<ICustomerService, CustomerManager>();
-            services.AddScoped<IRoomService, RoomManager>();
-            services.AddScoped<IRabbitMQHotel, RabitMQHotel>();
+            //services.AddTransient<IHotelService, HotelManager>();
+            //services.AddTransient<ICategoryService, CategoryManager>();
+            //services.AddTransient<ICityService, CityManager>();
+            //services.AddTransient<ICountryService, CountryManager>();
+            //services.AddTransient<ICustomerService, CustomerManager>();
+            //services.AddTransient<IRoomService, RoomManager>();
+
+            services.AddDbContext<HotelDbContext>(k => k.UseNpgsql(Configuration.GetConnectionString("HotelConnection")), ServiceLifetime.Scoped);
+
+            services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 
 
+            services.AddTransient<IHotelRepository, HotelRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IRoomRepository, RoomRepository>();
+            services.AddTransient<IReservationRepository, ReservationRepository>();
+            services.AddTransient(typeof(IHotelService), typeof(HotelManager));
+            services.AddTransient(typeof(ICategoryService), typeof(CategoryManager));
+            services.AddTransient(typeof(ICityService), typeof(CityManager));
+            services.AddTransient(typeof(ICountryService), typeof(CountryManager));
+            services.AddTransient(typeof(ICustomerService), typeof(CustomerManager));
+            services.AddTransient(typeof(IRoomService), typeof(RoomManager));
+            services.AddTransient(typeof(IHotelRepository), typeof(HotelRepository));
+            services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
+            services.AddTransient(typeof(ICityRepository), typeof(CityRepository));
+            services.AddTransient(typeof(ICountryRepository), typeof(CountryRepository));
+            services.AddTransient(typeof(ICustomerRepository), typeof(CustomerRepository));
+            services.AddTransient(typeof(IRoomRepository), typeof(RoomRepository));
+            services.AddTransient(typeof(IReservationRepository), typeof(ReservationRepository));
+            services.AddTransient<ISendMessageHotel, SendMessageHotel>();
+            services.AddTransient<IRedisCacheService, RedisCacheManager>();
+            services.AddScoped<IValidator<HotelModel>, HotelModelValidator>();
+            services.AddScoped<IValidator<CategoryModel>, CategoryModelValidator>();
+            services.AddScoped<IValidator<CityModel>, CityModelValidator>();
+            services.AddScoped<IValidator<CountryModel>, CountryModelValidator>();
 
             services.AddControllers();
-          
+            //services.AddControllers().AddFluentValidation(fv =>
+            //{
+            //    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+            //});
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = $"{Configuration.GetValue<string>("RedisCache:Host")}:{Configuration.GetValue<int>("RedisCache:Port")}";
+            });
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration.GetSection("Redis").Value;
 
             });
+            services.AddAutoMapper(typeof(CustomerProfile));
+
+            
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

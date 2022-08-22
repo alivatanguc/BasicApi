@@ -4,11 +4,11 @@ using System.Text;
 
 namespace HotelFinder.Business.Models
 {
-    public class CategoryUpdateModel
+    public class CategoryUpdateModel 
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        
+
 
     }
 }

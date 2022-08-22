@@ -1,11 +1,13 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Xunit;
 
 namespace OtelFinder.Entities
 {
-    public class Hotel
+    public class Hotel : Entity
     {
        
 
@@ -23,10 +25,10 @@ namespace OtelFinder.Entities
         public double RoomPrice { get; set; }
         public int Star { get; set; }
         public int? RoomId { get; set; }
-        public Category Category { get; set; }
-        public Country Country { get; set; }
-        public City City { get; set; }
-        public Room Room { get; set; }
+        //public Category Category { get; set; }
+        //public Country Country { get; set; }
+        //public City City { get; set; }
+        //public Room Room { get; set; }
 
         virtual public ICollection<Customer> Customers { get; set; }
 
@@ -34,6 +36,17 @@ namespace OtelFinder.Entities
         {
             throw new NotImplementedException();
         }
+
+
+      
+       
+
+
+
+
+
+
+
     }
     
        

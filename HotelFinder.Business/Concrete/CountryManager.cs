@@ -12,29 +12,29 @@ namespace HotelFinder.Business.Concrete
     public class CountryManager : ICountryService
     {
         private readonly ICountryRepository _countryRepository;
-        public CountryManager()
+        public CountryManager(ICountryRepository countryRepository)
         {
-            _countryRepository = new CountryRepository();
+            _countryRepository = countryRepository;
         }
 
-        public Country CreateCountry(CountryModel countryModel)
+        public Country Create(CountryModel countryModel)
         {
             Country country = new Country()
             {
                // City = hotelModel.City
                 Name = countryModel.Name
             };
-            return _countryRepository.CreateCountry(country);
+            return _countryRepository.Create(country);
         }
 
         
-        public void DeleteCountry(int id)
+        public void Delete(int id)
         {
             //_hotelRepository.DeleteHotel(id);
-            var entity = _countryRepository.GetCountryById(id);
+            var entity = _countryRepository.GetById(id);
             if(entity != null)
             {
-                _countryRepository.DeleteCountry(id);
+                _countryRepository.Delete(id);
             }
             else
             {
@@ -44,18 +44,18 @@ namespace HotelFinder.Business.Concrete
 
        
 
-        public List<Country> GetAllCountries()
+        public List<Country> GetAll()
         {
-            return _countryRepository.GetAllCountries();
+            return _countryRepository.GetAll();
         }
 
       
 
-        public Country GetCountryById(int id)
+        public Country GetById(int id)
         {
             if(id > 0)
             {
-                return _countryRepository.GetCountryById(id);
+                return _countryRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
@@ -63,10 +63,10 @@ namespace HotelFinder.Business.Concrete
         }
 
        
-        public Country UpdateCountry(CountryUpdateModel countryUpdateModel)
+        public Country Update(CountryUpdateModel countryUpdateModel)
         {
 
-            var entity = _countryRepository.GetCountryById(countryUpdateModel.Id);
+            var entity = _countryRepository.GetById(countryUpdateModel.Id);
             if(entity != null)
             {
                 Country country = new Country()
@@ -75,7 +75,7 @@ namespace HotelFinder.Business.Concrete
                     // City = hotelUpdateModel.City,
                     Name = countryUpdateModel.Name
                 };
-                return _countryRepository.UpdateCountry(country);
+                return _countryRepository.Update(country);
             }
             else
             {

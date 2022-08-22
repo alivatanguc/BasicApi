@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,13 @@ namespace HotelFinder2.API.Controllers
     public class CustomerController : Controller
     {
         private ICustomerService customerService;
+        private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService _customerService)
+
+        public CustomerController(ICustomerService _customerService ,IMapper mapper)
         {
             customerService = _customerService;
+            _mapper = mapper;
         }
 
 
@@ -26,16 +30,23 @@ namespace HotelFinder2.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var customers = customerService.GetAllCustomers();
-            return Ok(customers);//200 döndürmemizi sağlar
-        }
+            //var customer = new Customer();
+            var Customer = customerService.GetAll();
+            var customerinfo = _mapper.Map<List<CustomerInfoDto>>(Customer);
+            //maplediğimiz şey liste halinde olduğu için list formunu kullanmak zorundayız ve maplediğimiz şeyi return yapmalıyız
+            
+          // return Ok(customers);//200 döndürmemizi sağlar
+            return Ok(customerinfo);
 
+
+        }
+       
         // GET api/<controller>/5
         [HttpGet("{id}")]
 
         public IActionResult Get(int id)
         {
-            var customer = customerService.GetCustomerById(id);
+            var customer = customerService.GetById(id);
             if(customer != null)
             {
                 return Ok(customer);
@@ -49,7 +60,12 @@ namespace HotelFinder2.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]CustomerModel customer)
         {
-            var createdCustomer = customerService.CreateCustomer(customer);
+
+
+
+
+            var createdCustomer = customerService.Create(customer);
+           
             return CreatedAtAction("Get", new { id = createdCustomer.CId }, createdCustomer);//201 döndürür
 
         }
@@ -58,9 +74,9 @@ namespace HotelFinder2.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put([FromBody]CustomerUpdateModel customer)
         {
-            if(customerService.GetCustomerById(customer.CId) != null)
+            if(customerService.GetById(customer.CId) != null)
             {
-                return Ok(customerService.UpdateCustomer(customer));
+                return Ok(customerService.Update(customer));
             }
             return NotFound();
         }
@@ -69,7 +85,7 @@ namespace HotelFinder2.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(customerService.GetCustomerById(id) != null)
+            if(customerService.GetById(id) != null)
             {
                 return Ok();
             }

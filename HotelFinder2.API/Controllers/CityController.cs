@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,11 @@ namespace HotelFinder2.API.Controllers
     {
         private ICityService cityService;
 
-
-        public CityController(ICityService _cityService)
+        private readonly IValidator<CityModel> _cityValidator;
+        public CityController(ICityService _cityService, IValidator<CityModel> cityValidator)
         {
             cityService = _cityService;
+            _cityValidator = cityValidator;
         }
 
 
@@ -31,7 +33,7 @@ namespace HotelFinder2.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var cities = cityService.GetAllCities();
+            var cities = cityService.GetAll();
             return Ok(cities);//200 döndürmemizi sağlar
         }
 
@@ -40,7 +42,7 @@ namespace HotelFinder2.API.Controllers
 
         public IActionResult Get(int id)
         {
-            var city = cityService.GetCityById(id);
+            var city = cityService.GetById(id);
             if(city != null)
             {
                 return Ok(city);
@@ -52,9 +54,15 @@ namespace HotelFinder2.API.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]CityModel city)
+        public async Task<IActionResult> Post([FromBody]CityModel city)
         {
-            var createdCity = cityService.CreateCityl(city);
+            var result = await _cityValidator.ValidateAsync(city);
+
+            if(!result.IsValid)
+            {
+                return NotFound(result.Errors.Select(k => k.ErrorMessage));
+            }
+            var createdCity = cityService.Create(city);
             return CreatedAtAction("Get", new { id = createdCity.Id }, createdCity);//201 döndürür
 
         }
@@ -63,9 +71,9 @@ namespace HotelFinder2.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put([FromBody]CityUpdateModel city)
         {
-            if(cityService.GetCityById(city.Id) != null)
+            if(cityService.GetById(city.Id) != null)
             {
-                return Ok(cityService.UpdateCity(city));
+                return Ok(cityService.Update(city));
             }
             return NotFound();
         }
@@ -74,7 +82,7 @@ namespace HotelFinder2.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(cityService.GetCityById(id) != null)
+            if(cityService.GetById(id) != null)
             {
                 return Ok();
             }

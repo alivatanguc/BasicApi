@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using OtelFinder.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace BasketApicik.Repository
@@ -16,9 +18,12 @@ namespace BasketApicik.Repository
             _redisCache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
-        public Task<string> DeleteBasket(string Name)
+        public async Task<string> DeleteBasket(string Name)
         {
-            throw new NotImplementedException();
+            _redisCache.Remove(Name);
+            var response = Name;
+          
+            return response;
         }
 
         public async Task<Hotel> GetBasket(string Name)
@@ -29,7 +34,7 @@ namespace BasketApicik.Repository
             return JsonConvert.DeserializeObject<Hotel>(hotel);
         }
 
-        public async Task<Hotel> UpdateBasket(Hotel hotel)
+        public async Task<Hotel> UpdateBasket(Reservation hotel)
         {
 
             await _redisCache.SetStringAsync(hotel.Name, JsonConvert.SerializeObject(hotel));

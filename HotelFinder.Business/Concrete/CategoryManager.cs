@@ -14,29 +14,29 @@ namespace HotelFinder.Business.Concrete
     public class CategoryManager : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        public CategoryManager()
+        public CategoryManager(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = new CategoryRepository();
+            _categoryRepository = categoryRepository;
         }
 
 
-        Category ICategoryService.CreateCategory(CategoryModel categoryModel)
+        Category ICategoryService.Create(CategoryModel categoryModel)
         {
             Category category = new Category()
             {
                 // City = hotelModel.City
                 Name = categoryModel.Name
             };
-            return _categoryRepository.CreateCategory(category);
+            return _categoryRepository.Create(category);
         }
 
-        void ICategoryService.DeleteCategory(int id)
+        void ICategoryService.Delete(int id)
         {
             //_hotelRepository.DeleteHotel(id);
-            var entity = _categoryRepository.GetCategoryById(id);
+            var entity = _categoryRepository.GetById(id);
             if(entity != null)
             {
-                _categoryRepository.DeleteCategory(id);
+                _categoryRepository.Delete(id);
             }
             else
             {
@@ -44,25 +44,25 @@ namespace HotelFinder.Business.Concrete
             }
         }
 
-        List<Category> ICategoryService.GetAllCategories()
+        List<Category> ICategoryService.GetAll()
         {
-            return _categoryRepository.GetAllCategories();
+            return _categoryRepository.GetAll();
         }
 
-        Category ICategoryService.GetCategoryById(int id)
+        Category ICategoryService.GetById(int id)
         {
             if(id > 0)
             {
-                return _categoryRepository.GetCategoryById(id);
+                return _categoryRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
             throw new Exception("ID CAN NOT BE LESS THAN ONE!!!");
         }
 
-       public Category UpdateCategory(CategoryUpdateModel categoryUpdateModel)
+       public Category Update(CategoryUpdateModel categoryUpdateModel)
         {
-            var entity = _categoryRepository.GetCategoryById(categoryUpdateModel.Id);
+            var entity = _categoryRepository.GetById(categoryUpdateModel.Id);
             if(entity != null)
             {
                 Category category = new Category()
@@ -71,7 +71,7 @@ namespace HotelFinder.Business.Concrete
                     // City = hotelUpdateModel.City,
                     Name = categoryUpdateModel.Name
                 };
-                return _categoryRepository.UpdateCategory(category);
+                return _categoryRepository.Update(category);
             }
             else
             {

@@ -1,7 +1,9 @@
-﻿using HotelFinder.Business.Abstract;
+﻿using FluentValidation;
+using HotelFinder.Business.Abstract;
 using HotelFinder.Business.Models;
 using HotelFinder.DataAccess.Abstract;
 using HotelFinder.DataAccess.Concrete;
+using Microsoft.Extensions.Caching.Distributed;
 using OtelFinder.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,13 +13,18 @@ namespace HotelFinder.Business.Concrete
 {
     public class HotelManager : IHotelService
     {
+        private readonly IDistributedCache _redisCache;
         private readonly IHotelRepository _hotelRepository;
-        public HotelManager()
+        public HotelManager(IHotelRepository hotelRepository)
         {
-            _hotelRepository = new HotelRepository();
+            _hotelRepository = hotelRepository;
         }
-        public Hotel CreateHotel(HotelModel hotelModel)
+       
+        public Hotel Create(HotelModel hotelModel)
         {
+
+
+
             Hotel hotel = new Hotel()
             {
                 CityId=hotelModel.CityId,
@@ -26,17 +33,17 @@ namespace HotelFinder.Business.Concrete
                 Name = hotelModel.Name
                 
             };
-            return _hotelRepository.CreateHotel(hotel);
+            return _hotelRepository.Create(hotel);
           
         }
 
-        public void DeleteHotel(int id)
+        public void Delete(int id)
         {
             //_hotelRepository.DeleteHotel(id);
-            var entity = _hotelRepository.GetHotelById(id);
+            var entity = _hotelRepository.GetById(id);
             if(entity != null)
             {
-                 _hotelRepository.DeleteHotel(id);
+                 _hotelRepository.Delete(id);
             }
             else
             {
@@ -46,25 +53,25 @@ namespace HotelFinder.Business.Concrete
         }
         
 
-        public List<Hotel> GetAllHotels()
+        public List<Hotel> GetAll()
         {
-            return _hotelRepository.GetAllHotels();
+            return _hotelRepository.GetAll();
         }
 
-        public Hotel GetHotelById(int id)
+        public Hotel GetById(int id)
         {
             if(id > 0)
             {
-                return _hotelRepository.GetHotelById(id);
+                return _hotelRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
             throw new Exception("ID CAN NOT BE LESS THAN ONE!!!");
         }
 
-        public Hotel UpdateHotel(HotelUpdateModel hotelUpdateModel)
+        public Hotel Update(HotelUpdateModel hotelUpdateModel)
         {
-            var entity = _hotelRepository.GetHotelById(hotelUpdateModel.Id);
+            var entity = _hotelRepository.GetById(hotelUpdateModel.Id);
             if(entity != null)
             {
                 Hotel hotel = new Hotel()
@@ -73,7 +80,7 @@ namespace HotelFinder.Business.Concrete
                    //City = hotelUpdateModel.City,
                     Name = hotelUpdateModel.Name
                 };
-                return _hotelRepository.UpdateHotel(hotel);
+                return _hotelRepository.Update(hotel);
             }
             else
             {

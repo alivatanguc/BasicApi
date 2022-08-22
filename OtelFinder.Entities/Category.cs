@@ -4,7 +4,8 @@ using System.Text;
 
 namespace OtelFinder.Entities
 {
-    public class Category
+    public class Category :Entity
+
     {
         public int Id { get; set; }
         public string Name { get; set; }

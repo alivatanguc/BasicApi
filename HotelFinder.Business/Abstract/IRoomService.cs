@@ -8,11 +8,11 @@ namespace HotelFinder.Business.Abstract
 {
     public interface IRoomService
     {
-        Room CreateRoom(RoomModel room);
-        List<Room> GetAllRooms();
-        Room GetRoomById(int id);
-        Room UpdateRoom(RoomUpdateModel room);
-        void DeleteRoom(int id);
+        Room Create(RoomModel room);
+        List<Room> GetAll();
+        Room GetById(int id);
+        Room Update(RoomUpdateModel room);
+        void Delete(int id);
 
     }
 }

@@ -8,11 +8,11 @@ namespace HotelFinder.Business.Abstract
 {
     public interface ICategoryService
     {
-        Category CreateCategory(CategoryModel category);
-        List<Category> GetAllCategories();
-        Category GetCategoryById(int id);
-        Category UpdateCategory(CategoryUpdateModel category);
-        void DeleteCategory(int id);
+        Category Create(CategoryModel category);
+        List<Category> GetAll();
+        Category GetById(int id);
+        Category Update(CategoryUpdateModel category);
+        void Delete(int id);
     }
 }
 

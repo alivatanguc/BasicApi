@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BasketApicik.Models
 {
-    public class HotelItem
+    public class Resevation
     {
         public int RoomId { get; set; }
         public string Name { get; set; }

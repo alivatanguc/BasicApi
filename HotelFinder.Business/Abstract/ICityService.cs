@@ -8,10 +8,10 @@ namespace HotelFinder.Business.Abstract
 {
     public interface ICityService
     {
-        City CreateCityl(CityModel city);
-        List<City> GetAllCities();
-        City GetCityById(int id);
-        City UpdateCity(CityUpdateModel city);
-        void DeleteCity(int id);
+        City Create(CityModel city);
+        List<City> GetAll();
+        City GetById(int id);
+        City Update(CityUpdateModel city);
+        void Delete(int id);
     }
 }

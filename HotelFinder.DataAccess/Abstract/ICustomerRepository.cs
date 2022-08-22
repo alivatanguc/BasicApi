@@ -5,12 +5,12 @@ using System.Text;
 
 namespace HotelFinder.DataAccess.Abstract
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository :IRepository<Customer>
     {
-        List<Customer> GetAllCustomers();
-        Customer GetCustomerById(int id);
-        Customer CreateCustomer(Customer customer);
-        Customer UpdateCustomer(Customer customer);
-        void DeleteCustomer(int id);
+        //List<Customer> GetAllCustomers();
+        //Customer GetCustomerById(int id);
+        //Customer CreateCustomer(Customer customer);
+        //Customer UpdateCustomer(Customer customer);
+        //void DeleteCustomer(int id);
     }
 }

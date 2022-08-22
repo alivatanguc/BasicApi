@@ -24,7 +24,7 @@ namespace HotelFinder2.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var rooms = roomService.GetAllRooms();
+            var rooms = roomService.GetAll();
             return Ok(rooms);//200 döndürmemizi sağlar
         }
 
@@ -32,7 +32,7 @@ namespace HotelFinder2.API.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var room = roomService.GetRoomById(id);
+            var room = roomService.GetById(id);
             if(room != null)
             {
                 return Ok(room);
@@ -46,7 +46,7 @@ namespace HotelFinder2.API.Controllers
 
         public IActionResult Post([FromBody]RoomModel room)
         {
-            var createdRoom = roomService.CreateRoom(room);
+            var createdRoom = roomService.Create(room);
             return CreatedAtAction("Get", new { id = createdRoom.Id }, createdRoom);//201 döndürür
 
             return NotFound();
@@ -58,7 +58,7 @@ namespace HotelFinder2.API.Controllers
     [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if(roomService.GetRoomById(id) != null)
+            if(roomService.GetById(id) != null)
             {
                 return Ok();
             }

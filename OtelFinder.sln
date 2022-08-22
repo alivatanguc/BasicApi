@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqOrders", "RabbitMqO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketApicik", "BasketApicik\BasketApicik.csproj", "{171B7434-4333-43C0-A045-96646C1E3F6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelRabbitmqConsole", "HotelRabbitmqConsole\HotelRabbitmqConsole.csproj", "{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerConsole", "HotelRabbitmqConsole\CustomerConsole.csproj", "{C0EE43A2-235A-43C8-B16F-4238ECF63FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

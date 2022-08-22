@@ -14,11 +14,11 @@ namespace HotelFinder.Business.Concrete
     public class CustomerManager : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
-        public CustomerManager()
+        public CustomerManager(ICustomerRepository customerRepository)
         {
-            _customerRepository = new CustomerRepository();
+            _customerRepository = customerRepository;
         }
-        public Customer CreateCustomer(CustomerModel customerModel)
+        public Customer Create(CustomerModel customerModel)
         {
 
             Customer customer = new Customer()
@@ -27,28 +27,28 @@ namespace HotelFinder.Business.Concrete
                 FirstName = customerModel.FirstName,
                 LastName=customerModel.LastName
             };
-            return _customerRepository.CreateCustomer(customer);
+            return _customerRepository.Create(customer);
         }
 
-        public List<Customer> GetAllCustomers()
+        public List<Customer> GetAll()
         {
-            return _customerRepository.GetAllCustomers();
+            return _customerRepository.GetAll();
         }
 
-        public Customer GetCustomerById(int id)
+        public Customer GetById(int id)
         {
             if(id > 0)
             {
-                return _customerRepository.GetCustomerById(id);
+                return _customerRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
             throw new Exception("ID CAN NOT BE LESS THAN ONE!!!");
         }
 
-        public Customer UpdateCustomer(CustomerUpdateModel customerUpdateModel)
+        public Customer Update(CustomerUpdateModel customerUpdateModel)
         {
-            var entity = _customerRepository.GetCustomerById(customerUpdateModel.CId);
+            var entity = _customerRepository.GetById(customerUpdateModel.CId);
             if(entity != null)
             {
                 Customer customer = new Customer()
@@ -57,7 +57,7 @@ namespace HotelFinder.Business.Concrete
                     FirstName = customerUpdateModel.FirstName,
                    // LastName = CustomerUpdateModel.LastName
                 };
-                return _customerRepository.UpdateCustomer(customer);
+                return _customerRepository.Update(customer);
             }
             else
             {
@@ -65,12 +65,12 @@ namespace HotelFinder.Business.Concrete
             }
         }
 
-        public void DeleteCustomer(int id)
+        public void Delete(int id)
         {
-            var entity = _customerRepository.GetCustomerById(id);
+            var entity = _customerRepository.GetById(id);
             if(entity != null)
             {
-                _customerRepository.DeleteCustomer(id);
+                _customerRepository.Delete(id);
             }
             else
             {

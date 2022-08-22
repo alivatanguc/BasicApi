@@ -8,11 +8,11 @@ namespace HotelFinder.Business.Abstract
 {
     public interface ICustomerService
     {
-        Customer CreateCustomer(CustomerModel customer);
-        List<Customer> GetAllCustomers();
-        Customer GetCustomerById(int id);
-        Customer UpdateCustomer(CustomerUpdateModel customer);
-        void DeleteCustomer(int id);
+        Customer Create(CustomerModel customer);
+        List<Customer> GetAll();
+        Customer GetById(int id);
+        Customer Update(CustomerUpdateModel customer);
+        void Delete(int id);
 
 
     }

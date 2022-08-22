@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RabbitMqProduct.RabitMQ
 {
-    public class RabitMQHotel : IRabbitMQHotel
+    public class SendMessageHotel : ISendMessageHotel
     {
         public void SendHotelMessage<T>(T message)
         {

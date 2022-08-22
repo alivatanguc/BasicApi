@@ -12,31 +12,31 @@ namespace HotelFinder.Business.Concrete
     public class CityManager : ICityService
     {
         private readonly ICityRepository _cityRepository;
-        public CityManager()
+        public CityManager(ICityRepository cityRepository)
         {
-            _cityRepository = new CityRepository();
+            _cityRepository = cityRepository;
         }
-        
 
-       
 
-        public City CreateCityl(CityModel cityModel)
+
+
+        public City Create(CityModel cityModel)
         {
             City city = new City()
             {
                 //City = cityModel.City,
             Name = cityModel.Name
             };
-            return _cityRepository.CreateCity(city);
+            return _cityRepository.Create(city);
         }
 
-        public void DeleteCity(int id)
+        public void Delete(int id)
         {
             //_hotelRepository.DeleteHotel(id);
-            var entity = _cityRepository.GetCityById(id);
+            var entity = _cityRepository.GetById(id);
             if(entity != null)
             {
-                _cityRepository.DeleteCity(id);
+                _cityRepository.Delete(id);
             }
             else
             {
@@ -46,19 +46,19 @@ namespace HotelFinder.Business.Concrete
 
        
 
-        public List<City> GetAllCities()
+        public List<City> GetAll()
         {
-            return _cityRepository.GetAllCities();
+            return _cityRepository.GetAll();
         }
 
       
 
-        public City GetCityById(int id)
+        public City GetById(int id)
         {
 
             if(id > 0)
             {
-                return _cityRepository.GetCityById(id);
+                return _cityRepository.GetById(id);
             }
 
             //return _hotelRepository.GetHotelById(id);
@@ -66,9 +66,9 @@ namespace HotelFinder.Business.Concrete
         }
 
      
-        public City UpdateCity(CityUpdateModel cityUpdateModel)
+        public City Update(CityUpdateModel cityUpdateModel)
         {
-            var entity = _cityRepository.GetCityById(cityUpdateModel.Id);
+            var entity = _cityRepository.GetById(cityUpdateModel.Id);
             if(entity != null)
             {
                 City city = new City()
@@ -77,7 +77,7 @@ namespace HotelFinder.Business.Concrete
                     // City = hotelUpdateModel.City,
                     Name = cityUpdateModel.Name
                 };
-                return _cityRepository.UpdateCity(city);
+                return _cityRepository.Update(city);
             }
             else
             {
